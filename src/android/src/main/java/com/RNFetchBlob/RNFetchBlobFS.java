@@ -849,21 +849,14 @@ public class RNFetchBlobFS {
     }
 
     public static String normalizePath(String path) {
-        if(path.startsWith(RNFetchBlobConst.FILE_PREFIX_BUNDLE_ASSET)) {
+        if (path.startsWith(RNFetchBlobConst.FILE_PREFIX_BUNDLE_ASSET)) {
             return path;
         }
         else if (path.startsWith(RNFetchBlobConst.FILE_PREFIX_CONTENT)) {
             String filePath = null;
             Uri uri = Uri.parse(path);
-            if (uri != null && "content".equals(uri.getScheme())) {
-                ContentResolver resolver = RNFetchBlob.RCTContext.getContentResolver();
-                Cursor cursor = resolver.query(uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null);
-                cursor.moveToFirst();
-                filePath = cursor.getString(0);
-                cursor.close();
-            } else {
-                filePath = uri.getPath();
-            }
+            filePath = RealPathUtil.getRealPathFromURI(uri);
+
             return filePath;
         }
         return path;
