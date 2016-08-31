@@ -24,6 +24,8 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.lang.Exception;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -208,6 +210,8 @@ public class RNFetchBlobFS {
         res.put("DownloadDir", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
         res.put("MovieDir", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getAbsolutePath());
         res.put("RingtoneDir", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_RINGTONES).getAbsolutePath());
+        res.put("SDCardDir", Environment.getExternalStorageDirectory().getAbsolutePath());
+
         return res;
     }
 
@@ -463,7 +467,7 @@ public class RNFetchBlobFS {
                 in.close();
                 out.close();
                 callback.invoke();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 callback.invoke(e.getLocalizedMessage());
             }
         }
